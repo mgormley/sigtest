@@ -1,0 +1,35 @@
+#!/bin/bash
+#
+# Adapted from https://github.com/nqzero/mvnrun
+#
+
+: ${output:="/dev/null"}
+
+pomxml="
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>sigtest</groupId>
+  <artifactId>sigtest</artifactId>
+  <version>1.0</version>
+  <dependencies>
+    <dependency>
+      <groupId>edu.jhu.pacaya-nlp</groupId>
+      <artifactId>pacaya-nlp</artifactId>
+      <version>3.1.3</version>
+    </dependency>
+  </dependencies>
+</project>
+"
+
+
+cp=-
+read cp < <(
+    mvn dependency:resolve dependency:build-classpath -f <(echo "${pomxml}") -Dmdep.outputFile=/dev/fd/3 3>&1 > ${output}
+)
+
+if [ "$cp" == - ]; then
+   echo "mvn failed to resolve ... exiting"
+   exit 1;
+fi
+
+java -cp "${cp}" edu.jhu.nlp.eval.SignificanceTests ${@}
