@@ -1,7 +1,14 @@
 #!/bin/bash
 #
-# Adapted from https://github.com/nqzero/mvnrun
+# Wrapper script which simply runs the following:
+#  java edu.jhu.nlp.eval.SignificanceTests
 #
+# The script requires maven in order to grab the dependencies and add
+# them to the classpath. Classpath resolution was adapted from the
+# mvnrun script: https://github.com/nqzero/mvnrun.
+#
+
+command -v mvn >/dev/null 2>&1 || { echo >&2 "The 'mvn' command (i.e Maven) is required, but not installed.  Aborting."; exit 1; }
 
 : ${output:="/dev/null"}
 
@@ -15,7 +22,7 @@ pomxml="
     <dependency>
       <groupId>edu.jhu.pacaya-nlp</groupId>
       <artifactId>pacaya-nlp</artifactId>
-      <version>3.1.3</version>
+      <version>3.1.5</version>
     </dependency>
   </dependencies>
 </project>
