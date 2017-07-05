@@ -136,6 +136,24 @@ paired permutation test with 2^20 permutations and the result is a
 p-value of 0.25 -- clearly indicating that there is not a significant
 difference.
 
+
+Using the command below, we can run the bootstrap test `--sigTest
+BOOTSTRAP` and fewer samples `--numSamples 100000` (i.e. 0.1 million
+instead of ~1 million),
+
+``` bash
+./sigtest --gold test.txt --pred1 pred1.txt --pred2 pred2.txt --type CONLL_2002 --metric NER_F1 --sigTest BOOTSTRAP --numSamples 100000
+```
+
+The output will give a similar p-value as shown below.
+
+``` bash
+...
+7048     INFO  SignificanceTests - p-value (bootstrap permutation): 0.24996
+7048     INFO  SignificanceTests - REPORT: p-value-bts = 0.24996
+```
+
+
 ## Contributing
 
 If you'd like to add support for additional data formats, metrics, or
