@@ -3,37 +3,27 @@
 This script can be used to run two types of significance tests: (1)
 the paired permutation test and (2) the bootstrap test. It is designed
 specifically to support a variety of Natural Language Processing data
-formats and metrics. The `sigtest` script provided here is simply a
-wrapper for `java edu.jhu.nlp.eval.SignificanceTests`.
+formats and metrics (see the two lists below). 
 
-The implementation of the paired permutation test follows (Yeh, 2000),
-which itself followed (Noreen, 1989, Sec. 3A.3). For a concise
-description of the bootstrap test see (Berg-Kirkpatrick & Klein,
-2012).
+The paired permutation test follows
+[(Yeh, 2000)](https://arxiv.org/abs/cs/0008005) which uses the test as
+described in (Noreen, 1989, Sec. 3A.3). For a concise description of
+the bootstrap test see
+[(Berg-Kirkpatrick & Klein, 2012)](http://www.aclweb.org/anthology/D/D12/D12-1091.pdf).
 
-Metrics (specified via `--metric`):
-
-- `POS_ACC`: Accuracy of POS tags
-- `DP_ACC`: Accuracy of unlabeled syntactic dependencies
-- `SRL_P, SRL_R, SRL_F1`: Precision, recall, and F1 of semantic roles (dependency-based)
-- `REL_P, REL_R, REL_F1`: Precision, recall, and F1 of relations 
-- `NER_R, NER_P, NER_F1`: Precision, recall, and F1 of BIO-style chunking or NER
-
-
-Data formats (specified via `--type`):
-
-- Penn Treebank
-- CoNLL-2000
-- CoNLL-2002
-- CoNLL-2003
-- CoNLL-X
-- CoNLL-2008
-- CoNLL-2009
-- Concrete (a la. http://hltcoe.github.io/)
-- SemEval 2010
-- Pacaya JSON
+The implementation caches sentence-level sufficient statistics for the
+corresponding metric, so that the resulting significance tests are
+fairly fast for a large number of samples (e.g. 1 million).  In
+general, the paired permutation test tends to run a bit faster than
+the bootstrap.
 
 ## Installation
+
+The `sigtest` script provided here is simply a wrapper for `java
+edu.jhu.nlp.eval.SignificanceTests`. Java users may prefer to directly
+invoke
+[SignificanceTests](https://github.com/mgormley/pacaya-nlp/blob/master/src/main/java/edu/jhu/nlp/eval/SignificanceTests.java).
+
 
 1. Install [Apache Maven](https://maven.apache.org/install.html)
    - Mac OS X: `brew install maven`
@@ -64,10 +54,30 @@ usage: ./sigtest [-f <arg>] --gold <arg> --pred1 <arg> --pred2 <arg>
 
 The `--sigtest` option can be one of `{PAIRED, BOOTSTRAP}`. The
 integer `--numSamples` specifies the number of permuations or
-bootstrap samples and defaults to 2^20. The options for `--metric` are
-given above. The dataset type is specified by `--type` and should be
-one of `{PTB, CONLL_2002, CONLL_2003, CONLL_X, CONLL_2008, CONLL_2009,
-CONCRETE, SEMEVAL_2010, JSON}`.
+bootstrap samples and defaults to 2^20. Various metrics and datasets
+are supported (see options below).
+
+
+Metrics (specified via `--metric`):
+
+- `POS_ACC`: Accuracy of POS tags
+- `DP_ACC`: Accuracy of unlabeled syntactic dependencies
+- `SRL_P, SRL_R, SRL_F1`: Precision, recall, and F1 of semantic roles (dependency-based)
+- `REL_P, REL_R, REL_F1`: Precision, recall, and F1 of relations 
+- `NER_R, NER_P, NER_F1`: Precision, recall, and F1 of BIO-style chunking or NER
+
+
+Data formats (specified via `--type`):
+
+- `PTB`: Penn Treebank
+- `CONLL_2002`: CoNLL-2000 and CoNLL-2002
+- `CONLL_2003`: CoNLL-2003
+- `CONLL_X`: CoNLL-X
+- `CONLL_2008`: CoNLL-2008
+- `CONLL_2009`: CoNLL-2009
+- `CONCRETE`: Concrete (a la. http://hltcoe.github.io/)
+- `SEMEVAL_2010`: SemEval 2010
+- `JSON`: Pacaya's concatenated JSON
 
 ## Example Run
 
@@ -123,14 +133,15 @@ SEED=123456789101112
 The reported values show that score1 (F1 on pred1.txt) is 92.08%,
 score2 (F1 on pred2.txt) is 91.97%. The sigtest script defaults to a
 paired permutation test with 2^20 permutations and the result is a
-p-value of 0.25 --- clearly indicating that there is not a significant
+p-value of 0.25 -- clearly indicating that there is not a significant
 difference.
 
 ## Contributing
 
 If you'd like to add support for additional data formats, metrics, or
 statistical significance tests please submit a pull request on
-[Pacaya NLP](https://github.com/mgormley/pacaya-nlp) with your
-modifications to `edu.jhu.nlp.eval.SignificanceTests`.
+[Pacaya NLP](https://github.com/mgormley/pacaya-nlp) with
+modifications to
+[edu.jhu.nlp.eval.SignificanceTests](https://github.com/mgormley/pacaya-nlp/blob/master/src/main/java/edu/jhu/nlp/eval/SignificanceTests.java).
 
 
