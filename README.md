@@ -35,9 +35,8 @@ invoke
 
 Command line options:
 ```bash
-usage: ./sigtest [-f <arg>] --gold <arg> --pred1 <arg> --pred2 <arg> 
-       --type <arg> --metric <arg> [--maxNumSentences <arg>] 
-       [--numSamples <arg>]  [--reportOut <arg>] 
+usage: ./sigtest --gold <arg> --pred1 <arg> --pred2 <arg> --type <arg> --metric <arg> 
+       [--maxNumSentences <arg>] [--numSamples <arg>]  [--reportOut <arg>] 
        [--sigTest <arg>] [--skipPunct <arg>]
        
 --gold <arg>              [Required] The path to the gold data
