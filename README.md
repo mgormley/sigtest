@@ -6,10 +6,10 @@ specifically to support a variety of Natural Language Processing data
 formats and metrics (see the two lists below). 
 
 The paired permutation test follows
-[(Yeh, 2000)](https://arxiv.org/abs/cs/0008005) which uses the test as
-described in (Noreen, 1989, Sec. 3A.3). For a concise description of
+[Yeh (2000)](https://arxiv.org/abs/cs/0008005) which uses the test as
+described in Noreen (1989, Sec. 3A.3). For a concise description of
 the bootstrap test see
-[(Berg-Kirkpatrick & Klein, 2012)](http://www.aclweb.org/anthology/D/D12/D12-1091.pdf).
+[Berg-Kirkpatrick & Klein (2012)](http://www.aclweb.org/anthology/D/D12/D12-1091.pdf).
 
 The implementation caches sentence-level sufficient statistics for the
 corresponding metric, so that the resulting significance tests are
